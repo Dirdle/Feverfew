@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- XML document for providing foes for Feverfew -->
+<enemyExtractor xmlns:ns2="feverfew.EnemyExtractor">
+	<enemyList>
+		<enemy>
+			<base_stam>20</base_stam>
+		</enemy>
+		
+		<enemy>
+			<base_stam>50</base_stam>			
+		</enemy>
+		
+	</enemyList>
+</enemyExtractor>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- XML document for managing the Actions in Feverfew. Adding/altering actions is simplified. -->
+<actionExtractor xmlns:ns2="feverfew.ActionExtractor">
+    <actionList>
+		<action name="strike"> 
+			<displayName>Strike</displayName>
+			<description></description>
+			
+			<difficulty>0</difficulty>
+			<targets>single, any</targets>
+			
+			<!-- Costs and effects are Base Cost, which is modified by various in-game effects -->
+			<stam_cost>10</stam_cost>
+			<will_cost>1</will_cost>
+			
+			<dodge_cost>50</dodge_cost>
+			<block_cost>50</block_cost>
+			
+			<restrictions/>
+			<special/>
+		</action>
+		
+		<action name="l_strike">
+			<displayName>Quick Attack</displayName>
+			<description></description>
+			
+			<difficulty>5</difficulty>
+			<targets>single, any</targets>
+			
+			<stam_cost>30</stam_cost>
+			<will_cost>10</will_cost>
+			
+			<dodge_cost>75</dodge_cost>
+			<block_cost>30</block_cost>
+			
+			<restrictions/>
+			<special/>	
+		</action>
+
+		<action name="h_strike">
+			<displayName>Fierce Blow</displayName>
+			<description></description>
+			
+			<difficulty>5</difficulty>
+			<targets>single, any</targets>
+			
+			<stam_cost>30</stam_cost>
+			<will_cost>10</will_cost>
+			
+			<dodge_cost>30</dodge_cost>
+			<block_cost>75</block_cost>	
+			
+			<restrictions/>
+			<special/>	
+		</action>	
+	</actionList>
+</actionExtractor>

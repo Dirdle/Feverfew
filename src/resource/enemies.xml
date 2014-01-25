@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- XML document for providing foes for Feverfew -->
+<enemyExtractor xmlns:ns2="feverfew.EnemyExtractor">
+	<enemyList>
+		<enemy name="kobol">
+			<displayName>Kobol Skulk</displayName>
+			<description></description>
+			
+			<spriteName>kobol1</spriteName>
+			
+			<base_stam>20</base_stam>
+			<base_will>20</base_will>
+			
+			<stam_reg>5</stam_reg>
+			<will_reg>1</will_reg>			
+		
+		</enemy>
+		
+		<enemy name="krabby">
+			<displayName>Armoured Kankeridon</displayName>
+			<description></description>
+			
+			<spriteName>kankeridon</spriteName>
+			
+			<base_stam>50</base_stam>
+			<base_will>10</base_will>
+			
+			<stam_reg>15</stam_reg>
+			<will_reg>1</will_reg>
+			
+		</enemy>
+		
+	</enemyList>
+</enemyExtractor>
