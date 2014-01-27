@@ -31,14 +31,14 @@ public abstract class Pin implements Testing {
     
     protected int x;
     protected int y;
-    // Gotta have a location (top left corner)
+    // Gotta have a location (top left corner)   
     
     
-    
-    /** There should be two types of pins: those that just have a shape (and
-    * associated stroking methods): scaffolds. And those that import an image:
-    * sprites.
-    */ 
+    /** 
+     * There should be two types of pins: those that just have a shape (and
+     * associated stroking methods): scaffolds. And those that import an image:
+     * sprites.
+     */ 
     
     public boolean isVisible(){
         return visible;
@@ -52,8 +52,14 @@ public abstract class Pin implements Testing {
     public void setVisibility(boolean b){
         this.visible = b;
     }
-    
-    //
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
     
     public void setX(int newx){
         this.x = newx;
