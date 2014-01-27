@@ -21,10 +21,11 @@ package feverfew;
 import java.awt.Dimension;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Point;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 public interface Testing {
     //TODO properly sort into some kind of grouping schema
@@ -32,7 +33,7 @@ public interface Testing {
     // Logging settings
     public static final Path DEFAULT_LOG = 
             Paths.get("C:/Program Files/Feverfew/feverfew.log");
-    public static final Flogger LOGGER = new Flogger(DEFAULT_LOG);
+    public static final FLogger LOGGER = new FLogger(DEFAULT_LOG);
 
     public static final Dimension DIM = new Dimension(800, 600);
     // Remember, width then height, across then down
@@ -41,9 +42,13 @@ public interface Testing {
     // in pixels    
     public static final Color BACKGROUND = Color.DARK_GRAY;
     
+    public static final HashMap PRIORITIES = Feverfew.getPrioritiesMap();
     
     public static final int ACTIONCOUNT = 2;
     
+    
+    public static final Point COMBATSTARTBUTTONLOCATION 
+            = new Point((int) 0.5 * DIM.height, (int) 0.5 * DIM.width);
     
     public static final String ACTIONLOCATION = "resource/actions.xml"; 
     public static final String ENEMIESLOCATION = "resource/enemies.xml";
