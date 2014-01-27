@@ -9,6 +9,7 @@ package feverfew;
  * @author Oscar
  * 
  * This class unifies the various setting/getting configuration requirements
+ * Or, it will do, when config files are implemented.
  */
 
 
