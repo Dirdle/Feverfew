@@ -45,6 +45,8 @@ public class ActBar extends Scaffold implements Testing {
         
         this.duration = time; 
         
+        this.setPriority((int) PRIORITIES.get(this.getClass().toString()));
+        LOGGER.log("Set ActBar priority: " + this.getPriority());
         this.setFill(false);
         this.setStroke(true);
         this.setStrokeColor(ACTBARCOLOR);
@@ -87,50 +89,6 @@ public class ActBar extends Scaffold implements Testing {
         this.line.setLine(0, 0, 0, length);
         this.setShape(line);
     }
-    
-//    public double score(){       
-//        return this.score((int) (PROPORTIONY * DIM.height) - length);
-//    }
-//    
-//    public double score(int hitPosition){
-//        // Scoring function
-//        // First, find out if any stop points are relevant
-//        double hitProportion = hitPosition / (PROPORTIONY * DIM.height);
-//        LOGGER.log("Hit detected at " 
-//                + Double.toString(hitProportion));
-//        // this is the hit position as a proportion; more generally useful
-//        for (int i = 0; i < stops.length; i++){
-//            StopPoint aStop = stops[i];
-//            if (Feverfew.within(aStop.lowerBound, aStop.upperBound, 
-//                    hitProportion)){
-//                // Conditional on the hit having been within the boundaries of 
-//                // the stop point, get that stop point's score of the hit
-//                double baseScore = aStop.score(hitProportion);
-//                return baseScore + (double) i*1000;
-//            }
-//        }
-//        return -1;
-//        /** If no hit, return the miss-score (not 0 as that's ALMOST possible 
-//        * for a hit, negative numbers will NEVER be produced by a hit, though)
-//        * -1 is the most common "special case" score
-//        * The others are, at present:
-//        * -10: no score yet assigned to this stop point (error score)
-//        * -20: scoring defaulted, stop point did not have a type assigned
-//        *      or was assigned a non-existent type (error score)
-//        * 
-//        * If returning an actual negative score is ever required (what for?),
-//        * subtract MAXSCORE from the score after the score is retrieved.
-//        * 
-//        * The thousands-unit is the reference that informs the system WHICH stop
-//        * point has been hit, without any need for complex fiddling. It's pretty
-//        * easy to reverse: the actual score is the passed score % 1000, and the
-//        * stop point hit is log_10 
-//        */        
-//    }
-
-//    public StopPoint[] getStops(){
-//        return this.stops;
-//    }
 
     public int getLength() {
         return length;
