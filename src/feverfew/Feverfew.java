@@ -17,6 +17,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -45,11 +46,7 @@ public class Feverfew extends JFrame implements Testing {
         // Puts a new Board object onto the frame
         this.getContentPane().add(new Board(cl));
         
-        
-
         this.addWindowListener(new MyWindowAdapter());
-
-
         
         this.pack();
         // Important to pack (ie build the frame) BEFORE choosing where to
@@ -65,10 +62,6 @@ public class Feverfew extends JFrame implements Testing {
     
     
     public static void main(String[] args) {
-        
-        // Initialise the logger
-        
-        // Start the game
         new Feverfew();
         
     }
@@ -115,6 +108,17 @@ public class Feverfew extends JFrame implements Testing {
             output[i] = temp;
         }
         return output;        
+    }
+    
+    public static HashMap getPrioritiesMap(){
+        //This method creates a hashmap of the various Pins by getClass.toString
+        // and their respective painting-priority
+        HashMap output = new HashMap();
+        output.put("class feverfew.ActBar", 10);
+        output.put("class feverfew.StopPoint", 5);
+        output.put("class feverfew.ActionPin", 6);
+        
+        return output;
     }
 
     private class MyWindowAdapter 
