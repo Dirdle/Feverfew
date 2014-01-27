@@ -39,6 +39,8 @@ public class ActionPin extends Scaffold {
         this.x = x;
         this.y = y;
         
+        this.setPriority((int) PRIORITIES.get(this.getClass().toString()));
+        LOGGER.log("Set ActBar priority: " + this.getPriority());        
         this.setStroke(false);
         this.setFill(true);
         this.setFillColor(DEFTEXTCOLOR);
