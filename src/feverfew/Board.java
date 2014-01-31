@@ -10,6 +10,9 @@ package feverfew;
  * 
  * This class will do a lot of the heavy lifting, I expect
  */
+import glyphs.Pin;
+import glyphs.Scaffold;
+import glyphs.Sprite;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -63,8 +66,6 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
     
     // Combat object. When this exists, a battle is taking place.
     private Combat currentFight;
-    // Round, a single round of combat
-    private Round round;     
     
     private boolean gameActive;
     private boolean userReady;
@@ -76,6 +77,11 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
     public KeyAdapter myAdapter;
     public ActionListener myListener;
     
+// <editor-fold defaultstate="collapsed" desc=" Specific components ">
+    //Default all these to Null
+    private JButton combatStartButton = null;
+
+// </editor-fold>
     public Board(ClassLoader loader){
                
         // Setting some JPanel constants relevant to the desired setup
@@ -216,7 +222,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
             switch (state){
                 case STARTINGCOMBAT:
                     // Code to create a button
-                    JButton combatStartButton = new JButton("Let's go!");
+                    combatStartButton = new JButton("Let's go!");
                     // The command that the button sends when used
                     combatStartButton.setActionCommand("startCombat");
                     // The switchboard that listens for said command
@@ -238,6 +244,11 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
                     this.currentFight 
                             = new Combat(selectOpponents(enemyGetter, 1),
                                         players);
+                    
+                    // Forget about the button
+                    this.remove(combatStartButton);                    
+                    combatStartButton = null;
+                    
                     this.state = State.RUNNINGCOMBAT;
                     LOGGER.stateSet(state);  
                     break;
@@ -444,11 +455,27 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
             }            
         }
         
+        public void keyPressed(KeyEvent press){
+            // Code to interpret key presses in context of a combat
+            int key = press.getKeyCode();
+            
+            switch (key) {
+                case KeyEvent.VK_SPACE:
+                    // Space is used to stop an actbar
+                    if (currentRound.active){
+                        LOGGER.log("Stop command: stopping round.");
+                        currentRound.stop();
+                    }
+                    else {
+                        LOGGER.log("Stop command: round already inactive");
+                    }
+            }
+        }
+        
     }
     
     /**
-     * Inner class: switchboard for input events. Cast to KeyListener or
-     * ActionListener as appropriate. Is that bad practice? Probably
+     * Inner class: switchboard for input events from the keyboard
      */
     private class MyKeyAdapter extends KeyAdapter {
         
@@ -466,30 +493,18 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
              * 
              * TODO create bindings.txt and code to read it
              */
-            int key = press.getKeyCode();
             
-            switch (key){
-                case KeyEvent.VK_SPACE:
-                    round.stop();
+            
+            switch (state){
+                case RUNNINGCOMBAT:
+                    currentFight.keyPressed(press);
                     break;
                 default:
-                    LOGGER.log("Unbound key");
+                    LOGGER.log("Key does nothing until game has a state.");
                     break;
             }
         }
 
-        }
-
-    
-//    private class MyActionAdapter implements ActionListener {
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e){
-//            if ("combatStarted".equals(e.getActionCommand())){
-//                LOGGER.log("Button pressed");
-//                userReady = true;
-//            }        
-//        }
-//    }  
+    }
 
 }
