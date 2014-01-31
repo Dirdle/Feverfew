@@ -4,6 +4,10 @@
  */
 package feverfew;
 
+import glyphs.StopPoint;
+import glyphs.ActionPin;
+import glyphs.ActBar;
+import glyphs.Pin;
 import glyphs.*;
 import java.util.ArrayList;
 import java.util.Arrays;

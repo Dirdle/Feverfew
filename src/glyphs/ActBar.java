@@ -11,6 +11,7 @@ package glyphs;
  */
 
 import feverfew.Testing;
+import feverfew.Testing;
 import java.awt.geom.Line2D;
 
 public class ActBar extends Scaffold implements Testing {  

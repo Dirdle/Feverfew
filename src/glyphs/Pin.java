@@ -18,6 +18,7 @@ package glyphs;
 
 
 import feverfew.Testing;
+import feverfew.Testing;
 import java.awt.Dimension;
 
 public abstract class Pin implements Testing {

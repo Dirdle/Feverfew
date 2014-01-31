@@ -16,6 +16,7 @@ package glyphs;
 // TODO figure out how to 'display' the scoring.
 
 import feverfew.Testing;
+import feverfew.Testing;
 import java.awt.geom.Rectangle2D;
 
 public class StopPoint extends Scaffold implements Testing {

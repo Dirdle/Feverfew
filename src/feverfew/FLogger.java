@@ -1,24 +1,20 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
+*/
 package feverfew;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 
 /**
- *
- * @author Oscar
- * 
- * Whip the X's, pinch the O's! What this class does, no-one knows!
- */
+*
+* @author Oscar
+*
+* Whip the X's, pinch the O's! What this class does, no-one knows!
+*/
 
 
 public class FLogger {
@@ -32,7 +28,7 @@ public class FLogger {
     
     public FLogger(Path logTo) {
         logFileLoc = logTo;
-        startTime = System.currentTimeMillis();        
+        startTime = System.currentTimeMillis();
         
         try {
             // try to create a file writer at the location to which to log
@@ -43,14 +39,14 @@ public class FLogger {
             // code to handle exception
             x.printStackTrace();
             throw new RuntimeException("Failed to write log");
-        }       
+        }
 
     }
     
     public void log(String s){
         // TODO add code to include extra info with each log, eg time
         // Maybe format into HTML, I dunno
-        logBuild = new StringBuilder(0);               
+        logBuild = new StringBuilder(0);
         String time = Long.toString(System.currentTimeMillis() - startTime);
         logBuild.append("LOG: ")
                 .append(time)
@@ -58,14 +54,14 @@ public class FLogger {
                 .append(s);
         outputStream.println(logBuild.toString());
         
-        // Flush after each log, to ensure the log gets written even if 
+        // Flush after each log, to ensure the log gets written even if
         // feverfew crashes. Seems to work.
         outputStream.flush();
     }
     
     public void stateSet(State s){
         // Log changes to the state of the game
-        logBuild = new StringBuilder(0);        
+        logBuild = new StringBuilder(0);
         String time = Long.toString(System.currentTimeMillis() - startTime);
         logBuild.append("STA: ")
                 .append(time)
@@ -82,7 +78,7 @@ public class FLogger {
         }
         this.previousState = s;
         outputStream.println(logBuild.toString());
-        outputStream.flush();        
+        outputStream.flush();
     }
     
     public void close(){
