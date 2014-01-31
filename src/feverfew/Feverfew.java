@@ -114,9 +114,9 @@ public class Feverfew extends JFrame implements Testing {
         //This method creates a hashmap of the various Pins by getClass.toString
         // and their respective painting-priority
         HashMap output = new HashMap();
-        output.put("class feverfew.ActBar", 10);
-        output.put("class feverfew.StopPoint", 5);
-        output.put("class feverfew.ActionPin", 6);
+        output.put("class glyphs.ActBar", 10);
+        output.put("class glyphs.StopPoint", 5);
+        output.put("class glyphs.ActionPin", 6);
         
         return output;
     }
