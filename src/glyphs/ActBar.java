@@ -71,8 +71,8 @@ public class ActBar extends Scaffold implements Testing {
         this.setY( (int) ((1 - PROPORTIONY) * DIM.height/2.0));
         this.setX( (int) (PROPORTIONX * DIM.width));
         
-        LOGGER.log("Actbar position set to (" + this.x + ", "
-                + this.y + ")");
+        LOGGER.log("Actbar position set to (" + this.getX() + ", "
+                + this.getY() + ")");
         length  = totalLength;
         
         LOGGER.log("Actbar length set to " + length);
@@ -82,7 +82,12 @@ public class ActBar extends Scaffold implements Testing {
     
     public void update(){
         // Retracts the bar from the top down
-        y += delta;
+        
+        // Have to move the top down
+        this.setY((int) (this.getY()+ delta));
+        //And also shorten it so the bottom ends up less distant
+        // This is obviously suboptimal and will be revised when the actbar 
+        // is.
         length -=delta;
         if (length < delta){
             // the bar has run out

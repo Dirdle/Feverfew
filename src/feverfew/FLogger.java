@@ -81,6 +81,36 @@ public class FLogger {
         outputStream.flush();
     }
     
+    public void input(String desc){
+        // record a user input
+        logBuild = new StringBuilder(0);
+        String time = Long.toString(System.currentTimeMillis() - startTime);
+        logBuild.append("INP: ")
+                .append(time)
+                .append(": ")
+                .append(desc);
+        outputStream.println(logBuild.toString());
+        
+        // Flush after each log, to ensure the log gets written even if
+        // feverfew crashes. Seems to work.
+        outputStream.flush();        
+    }
+    
+    public void output(String desc){
+        // record a program output
+        logBuild = new StringBuilder(0);
+        String time = Long.toString(System.currentTimeMillis() - startTime);
+        logBuild.append("OUT: ")
+                .append(time)
+                .append(": ")
+                .append(desc);
+        outputStream.println(logBuild.toString());
+        
+        // Flush after each log, to ensure the log gets written even if
+        // feverfew crashes. Seems to work.
+        outputStream.flush();        
+    }    
+    
     public void close(){
         // The log has to be closed, or it won't save properly
         // if the program exits due to an error, I suspect the logging will fail

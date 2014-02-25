@@ -7,7 +7,6 @@ package feverfew;
 import glyphs.StopPoint;
 import glyphs.ActionPin;
 import glyphs.ActBar;
-import glyphs.Pin;
 import glyphs.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,8 +41,9 @@ public class Round implements Testing {
     ArrayList<Pin> pins;
     
     PlayerCharacter player;
+    Enemy[] enemies;
     
-    public Round(int actionCount, PlayerCharacter player){
+    public Round(int actionCount, PlayerCharacter player, Enemy[] enemies){
         /** TODO figure out what arguments this should take
         *int actionCount: for now, let the Board decide how many actions
         *later, it might be better for PC objects to have associated action-
@@ -58,6 +58,7 @@ public class Round implements Testing {
         
         this.actCount = actionCount;
         this.player = player;
+        this.enemies = enemies;
         
         // Set the sizes of arrays that depend on number of actions
         actpins = new ActionPin[actCount];
@@ -96,9 +97,6 @@ public class Round implements Testing {
                     Double.toString(place));            
             stops[i] = new StopPoint(place, actions[i].getDifficulty());   
         }
-        
-
-        
     }
     
     public void setBoard(Board b){
@@ -135,6 +133,7 @@ public class Round implements Testing {
         if (active){
             actbar.update();
             if (actbar.isDone()){
+                // actbar has reached end
                 this.stop();
             }
         }
@@ -148,6 +147,7 @@ public class Round implements Testing {
         // Ends the round
         this.active = false;
         this.setOutcome(score(actbar.totalLength - actbar.getLength()));
+        // when the round ends, all assoc. pins should die
         for(int i = 0; i < pins.size(); i++){
             pins.get(i).die();
         }

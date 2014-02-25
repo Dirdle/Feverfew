@@ -12,11 +12,12 @@ package glyphs;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.*;
 
-public class Scaffold extends Pin {
+public class Scaffold implements Pin {
     
     private boolean fill;
     private boolean stroke;
@@ -31,57 +32,55 @@ public class Scaffold extends Pin {
     // The actual geometric shape needs to be stored, but this is the only
     // real option for doing so generally.
     
+    private boolean dying, visible;
+    private int priority, x, y; 
+    
     public Scaffold(){
         this.setVisibility(true);
-    }
+    }    
     
-    
-    public boolean isFilled(){
+// <editor-fold defaultstate="collapsed" desc=" Getters and Setters for Scaffold ">
+    public boolean isFilled() {
         return this.fill;
     }
     
-    public boolean isStroked(){
+    public boolean isStroked() {
         return this.stroke;
     }
     
-    public void setFill(boolean newfill){
+    public void setFill(boolean newfill) {
         this.fill = newfill;
     }
     
-    public void setStroke(boolean newstroke){
+    public void setStroke(boolean newstroke) {
         this.stroke = newstroke;
     }
     
-    //
-    
-    public Color getFillColor(){
+    public Color getFillColor() {
         return this.fillColor;
     }
     
-    public Color getStrokeColor(){
+    public Color getStrokeColor() {
         return this.strokeColor;
     }
     
-    public void setFillColor(Color c){
+    public void setFillColor(Color c) {
         this.fillColor = c;
     }
     
-    public void setStrokeColor(Color c){
+    public void setStrokeColor(Color c) {
         this.strokeColor = c;
     }
-
-    //
     
-    public BasicStroke getPen(){
+    public BasicStroke getPen() {
         return this.pen;
     }
     
-    public void setPen(BasicStroke newpen){
+    public void setPen(BasicStroke newpen) {
         this.pen = newpen;
     }
     // Could include basically all of BasicStroke's constructors, but that's
-    // just silly for the scope of this project
-    
+    // just silly for the scope of this project  
     
     public Shape getShape(){
         try {
@@ -98,5 +97,75 @@ public class Scaffold extends Pin {
     public void setShape(Shape s){
         this.shape = s;
     }
+// </editor-fold> 
     
+// <editor-fold defaultstate="collapsed" desc=" Getters and Setters for Pin ">
+    @Override
+    public boolean isVisible() {
+        return visible;
+    }
+    
+    @Override
+    public void die() {
+        this.visible = false;
+        this.dying = true;
+    }
+    
+    @Override
+    public void setVisibility(boolean b) {
+        this.visible = b;
+    }
+    
+    @Override
+    public int getPriority() {
+        return priority;
+    }
+    
+    @Override
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+    
+    @Override
+    public void setX(int newx) {
+        this.x = newx;
+    }
+    
+    @Override
+    public void setY(int newy) {
+        this.y = newy;
+    }
+    
+    @Override
+    public void setLocation(Dimension place) {
+        this.x = place.width;
+        this.y = place.height;
+    }
+    
+    @Override
+    public int getX() {
+        return this.x;
+    }
+    
+    @Override
+    public int getY() {
+        return this.y;
+    }
+    
+    @Override
+    public Dimension getLocation() {
+        return new Dimension(x, y);
+    }
+
+    //
+    @Override
+    public void setDying(boolean newdying) {
+        this.dying = newdying;
+    }
+    
+    @Override
+    public boolean isDying() {
+        return this.dying;
+    }
+// </editor-fold>
 }

@@ -82,6 +82,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
     private JButton combatStartButton = null;
 
 // </editor-fold>
+    
     public Board(ClassLoader loader){
                
         // Setting some JPanel constants relevant to the desired setup
@@ -102,11 +103,12 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
     private void gameStart(){
         // Initialises the game
         myAdapter = new MyKeyAdapter();
-        this.addKeyListener((KeyListener) myAdapter);
+        this.addKeyListener(myAdapter);
 //        myListener = new MyActionAdapter();
         
         LOGGER.log("Extracting XML...");
         
+        // Create xml extractors for stored information
         try {            
             actionGetter = this.getActionGetter();
             enemyGetter  = this.getEnemyGetter();            
@@ -162,6 +164,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
             
             Pin pin = screenPins.get(n);
             
+            // Removes pins that are defunct
             if (pin.isDying()){
                 screenPins.remove(pin);                
                 pinCount--;
@@ -172,7 +175,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
                 
                 // Strictly speaking it is possible to avoid instanceof calls 
                 // here by 'merely' adding a whole lot of otherwise-useless
-                // code to Sprite, Scaffold and maybe Pin too. 
+                // code to Sprite, Scaffold and maybe Temp too. 
                 if (pin instanceof Sprite){
                     // TODO sprite painting code
                 }
@@ -300,11 +303,11 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
     }
     
     private void addScreenObject(Pin p){
-        //TODO add code to determine where in the array, exactly , the new
+        // TODO add code to determine where in the array, exactly , the new
         // pin should be (i.e. what the image is in front of/behind, since 
         // recently-drawn elements overwrite less recently-drawn ones).
         try {
-            screenPins.add(pinCount, p);
+            screenPins.add(p);
         }
         catch (IndexOutOfBoundsException e){
             LOGGER.log("Index out of bounds");
@@ -394,9 +397,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
     }
     
     /**
-     * Inner class: combat. Better to begin this chain inside the board,
-     * than mess around with passing board to round as an argument (as it did
-     * previously)
+     * Inner class: combat. Trying this out with the chain starting inside Board
      */    
     private class Combat {
         // Combat should probably be a subclass of Board, since it's going to be 
@@ -411,15 +412,19 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
          * (but action-target should be 'locked in' at choice)      
          * 3) The combat ends when either the enemies are all defeated or the 
          *      player character(s) are.
-         */
-        
+         */        
 
         ArrayList<Enemy> enemyList;
         ArrayList<PlayerCharacter> playerList;
         Round currentRound;
         
+        // integer targetter for player to set target. Remember to keep this
+        // mod length(enemies)
+        private int target;
+        
         public Combat(ArrayList<Enemy> enemies, 
                 ArrayList<PlayerCharacter> players){
+            
             LOGGER.log("Starting a combat.");
             this.playerList = players;
             this.enemyList  = enemies;
@@ -432,9 +437,9 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
                 LOGGER.log("Null Round detected, creating new Round");
                 // or something else the actbar object can self-alter
                 
-                //Creating the actbar here has, for now, an advantage:
-                // the else-if is only reached if the actbar ended
-                currentRound = new Round(ACTIONCOUNT, player);              
+                // Create a new round with the player and the enemies
+                currentRound = new Round(ACTIONCOUNT, player,
+                        enemyList.toArray(new Enemy[enemyList.size()]));              
                 currentRound.setBoard(Board.this);
                 
                 // Add all the pins in the round to the board
@@ -451,6 +456,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
             }            
             else{
                 // round is done, time to delete it
+                currentRound.stop();
                 currentRound = null;
             }            
         }
@@ -463,12 +469,15 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
                 case KeyEvent.VK_SPACE:
                     // Space is used to stop an actbar
                     if (currentRound.active){
-                        LOGGER.log("Stop command: stopping round.");
+                        LOGGER.input("Stop command: stopping round.");
                         currentRound.stop();
                     }
                     else {
-                        LOGGER.log("Stop command: round already inactive");
+                        LOGGER.input("Stop command: round already inactive");
                     }
+                    break;
+                    
+                    // Cases to handle target changing and other things
             }
         }
         
@@ -493,7 +502,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
              * 
              * TODO create bindings.txt and code to read it
              */
-            
+            LOGGER.input(press.paramString());
             
             switch (state){
                 case RUNNINGCOMBAT:
@@ -504,7 +513,5 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
                     break;
             }
         }
-
     }
-
 }

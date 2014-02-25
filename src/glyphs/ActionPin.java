@@ -30,16 +30,15 @@ public class ActionPin extends Scaffold {
 //    TODO make some icons...
     
     
-    public ActionPin(Action a, int x, int y){
+    public ActionPin(Action a, int x, int y){        
         
-        
-//         TODO initialise the icon
+        // TODO initialise the icon
         // Do this by looking up the action's name (dot png) in a folder full
         // of icons named after the relevant action.
         this.action = a;        
         this.name = this.action.getDisplayName();
-        this.x = x;
-        this.y = y;
+        this.setX(x);
+        this.setY(y);
         
         this.setPriority((int) PRIORITIES.get(this.getClass().toString()));
         LOGGER.log("Set ActBar priority: " + this.getPriority());        
@@ -48,7 +47,7 @@ public class ActionPin extends Scaffold {
         this.setFillColor(DEFTEXTCOLOR);
         
         LOGGER.log("Created ActionPin for " + this.name + " at (" 
-                + this.x + ", " + this.y + ")");
+                + this.getX() + ", " + this.getY() + ")");
 
     }
     

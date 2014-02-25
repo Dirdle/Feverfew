@@ -123,7 +123,7 @@ public class StopPoint extends Scaffold implements Testing {
         // This formula gives the absolute location of the stop point on the 
         // y-axis. The x-axis location is trivial
         LOGGER.log("Determined absolute location of stop point: "
-                + Double.toString(y));
+                + Double.toString(this.getY()));
         
         displaybox = new Rectangle2D.Double(0, 0, boxwidth, boxlength);
         
