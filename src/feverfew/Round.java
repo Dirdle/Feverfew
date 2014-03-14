@@ -120,9 +120,7 @@ public class Round implements Testing {
                     stops[i].getY() 
                     + (int)Math.floor(stops[i].getBoxlength()/2.0));
             
-            // Each actionpin needs to have its shape set from its name
-            actpins[i].setShape(this.board.stringToShape(actpins[i].getName()));
-            pins.add(actpins[i]);            
+            //pins.add(actpins[i]);            
         }
         
         this.start();

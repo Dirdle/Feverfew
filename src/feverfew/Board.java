@@ -13,6 +13,7 @@ package feverfew;
 import glyphs.Pin;
 import glyphs.Scaffold;
 import glyphs.Sprite;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -33,6 +34,7 @@ import java.util.EventListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 import javax.swing.JPanel;
 
@@ -90,6 +92,11 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
         this.setDoubleBuffered(true);
         this.setPreferredSize(DIM);
         this.setFocusable(true);        
+        
+        // Use null layout, ie components on the board must have known locations
+        // Having locations determined dynamically would be nice, but also very
+        // fiddly and prone to not working the way I want.
+        this.setLayout(null);
         
         cl = loader;
         
@@ -215,9 +222,9 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
         if (gameActive == true){
             // TODO: create code to 
             /**
-             * 1) Display a button until the user clicks it. 
+             * 1) Display a button until the user clicks it.  -done
              * 1a) Later add another button for exiting
-             * 2) Create a new Combat when the user clicks the button
+             * 2) Create a new Combat when the user clicks the button -done
              * 3) Then cycle over the combat until it's done
              * 4) goto 1
              */
@@ -265,9 +272,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
                         LOGGER.stateSet(state);
                     }
                     break;
-            }
-
-            
+            }            
         }
     }
     
@@ -302,21 +307,56 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
         }
     }
     
-    private void addScreenObject(Pin p){
-        // TODO add code to determine where in the array, exactly , the new
-        // pin should be (i.e. what the image is in front of/behind, since 
-        // recently-drawn elements overwrite less recently-drawn ones).
-        try {
-            screenPins.add(p);
+    public void addScreenObject(Pin p){
+        
+        if (p instanceof JComponent){
+            // Code to add components to the board
+            LOGGER.log("Adding a component to the board");
+            JComponent c = (JComponent) p;
+            
+            
+            
+            this.add(c);
         }
-        catch (IndexOutOfBoundsException e){
-            LOGGER.log("Index out of bounds");
-            System.exit(0);
+        else {
+            LOGGER.log("Adding pin to screenpins list");
+            int priority = p.getPriority();
+            // Code to determine the priority at which the new pin needs to be
+            try {
+                if (screenPins.isEmpty()) {
+                    screenPins.add(p);
+                } else {
+                    // Code to find the right place in the list of pins                
+                    screenPins.ensureCapacity(screenPins.size() + 1);
+                    // Go through the list until at right place for this priority
+                    int i = 0;
+                    while (priority < screenPins.get(i).getPriority()) {
+                        i++;
+                        if (i >= screenPins.size()) {
+                            // New priority is largest so far
+                            break;
+                        }
+                    }
+                    // Add the new entry in front of the priority switch from lower
+                    // to equal/higher
+                    if (i > 0) {
+                        i--;
+                    }
+                    screenPins.add(i, p);
+                }
+            } catch (IndexOutOfBoundsException e) {
+                LOGGER.log("Index out of bounds");
+                LOGGER.trace(e);
+                System.exit(1);
+            }
+            pinCount += 1;
         }
-        pinCount += 1;      
+     
     }
     
     private void addScreenObject(Pin[] pins){
+        // Just iterate over pins in the list; extending would have problems
+        // wrt ordering by priority
         for(Pin item : pins){
             this.addScreenObject(item);
         }
@@ -372,7 +412,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
         return shape;
     }    
     
-    public PlayerCharacter testPlayer(){
+    private PlayerCharacter testPlayer(){
         //A testing method for creating a player character for the alpha stages
         // of development
         return null;
@@ -461,50 +501,48 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
             }            
         }
         
-        public void keyPressed(KeyEvent press){
+        public void keyPressed(KeyEvent press) {
             // Code to interpret key presses in context of a combat
             int key = press.getKeyCode();
             
             switch (key) {
                 case KeyEvent.VK_SPACE:
                     // Space is used to stop an actbar
-                    if (currentRound.active){
+                    if (currentRound.active) {
                         LOGGER.input("Stop command: stopping round.");
                         currentRound.stop();
-                    }
-                    else {
+                    } else {
                         LOGGER.input("Stop command: round already inactive");
                     }
                     break;
-                    
-                    // Cases to handle target changing and other things
+
+                // Cases to handle target changing and other things
             }
         }
-        
     }
     
+// <editor-fold defaultstate="collapsed" desc=" Adapters ">
     /**
      * Inner class: switchboard for input events from the keyboard
      */
     private class MyKeyAdapter extends KeyAdapter {
         
         @Override
-        public void keyReleased(KeyEvent release){
+        public void keyReleased(KeyEvent release) {
             // TODO add anything that happens on keyrelease rather than keypress
         }
         
         @Override
-        public void keyPressed (KeyEvent press){
-            
+        public void keyPressed(KeyEvent press) {
+
             /**
-             * Key bindings at present: 
-             * Space: stop bar
-             * 
+             * Key bindings at present: Space: stop bar
+             *
              * TODO create bindings.txt and code to read it
              */
             LOGGER.input(press.paramString());
             
-            switch (state){
+            switch (state) {
                 case RUNNINGCOMBAT:
                     currentFight.keyPressed(press);
                     break;
@@ -514,4 +552,5 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
             }
         }
     }
+// </editor-fold>    
 }

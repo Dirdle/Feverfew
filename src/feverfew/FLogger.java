@@ -59,6 +59,13 @@ public class FLogger {
         outputStream.flush();
     }
     
+    public void trace(Throwable t){
+        // Log data from crashes; call this from catch blocks that terminate
+        // the program
+        outputStream.println(t.fillInStackTrace());
+        outputStream.flush();
+    }
+    
     public void stateSet(State s){
         // Log changes to the state of the game
         logBuild = new StringBuilder(0);

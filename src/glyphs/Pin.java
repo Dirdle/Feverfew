@@ -28,7 +28,7 @@ public interface Pin extends Testing {
 
     void die();
 
-    Dimension getLocation();
+    Dimension getPosition();
 
     int getPriority();
 

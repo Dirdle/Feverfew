@@ -153,7 +153,7 @@ public class Scaffold implements Pin {
     }
     
     @Override
-    public Dimension getLocation() {
+    public Dimension getPosition() {
         return new Dimension(x, y);
     }
 
