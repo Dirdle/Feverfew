@@ -86,7 +86,8 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
 // </editor-fold>
     
     public Board(ClassLoader loader){
-               
+        cl = loader;
+        
         // Setting some JPanel constants relevant to the desired setup
         this.setBackground(BACKGROUND);
         this.setDoubleBuffered(true);
@@ -96,9 +97,8 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
         // Use null layout, ie components on the board must have known locations
         // Having locations determined dynamically would be nice, but also very
         // fiddly and prone to not working the way I want.
-        this.setLayout(null);
+        this.setLayout(null);       
         
-        cl = loader;
         
         //ImageIcon ii = new ImageIcon(cl.getResource("blank.png"));
         //block = ii.getImage();
