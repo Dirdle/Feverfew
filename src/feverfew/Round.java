@@ -27,7 +27,7 @@ public class Round implements Testing {
     boolean active;
     
     int actCount;
-    Action[] actions;
+    GameAction[] actions;
     
     ActBar actbar;
     StopPoint[] stops;
@@ -73,7 +73,7 @@ public class Round implements Testing {
         LOGGER.log("Retrieving action pool from " + player.name);
         LOGGER.log(player.name + " has " + player.actionPool.size() + 
                 " actions");        
-        Action[] pool = player.actionPool.toArray(new Action[0]);
+        GameAction[] pool = player.actionPool.toArray(new GameAction[0]);
         
         // Choose which actions will be available (currently, random)
         LOGGER.log("Selecting " + actCount + " actions from " +
@@ -192,7 +192,7 @@ public class Round implements Testing {
         // the actbar, and sets the outcome accordingly - applies relevant
         // effects to the user and the target
         int rating = score % 1000;
-        Action choice = actions[score/1000];
+        GameAction choice = actions[score/1000];
         this.player.takeAction(choice, rating);
         //code to determine targetting rules and which targets to apply to
         if ("single, any".equals(choice.getTargets())){
@@ -206,12 +206,12 @@ public class Round implements Testing {
         setOutcome((int) score);
     }
      
-    private Action[] chooseActions(Action[] availAction, int n){
+    private GameAction[] chooseActions(GameAction[] availAction, int n){
         // Chooses n actions from the given array and returns them as an array
         // Does so by shuffling the array, then returning the first n entries
         // Want to create a new array, too, since the array being fed to this
         // probably shouldn't be returned shuffled
-        Action[] shuffledAvailable = Feverfew.shuffle(availAction);        
+        GameAction[] shuffledAvailable = Feverfew.shuffle(availAction);        
         return Arrays.copyOfRange(shuffledAvailable, 0, n);        
     }
 

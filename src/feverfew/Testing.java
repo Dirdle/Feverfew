@@ -58,7 +58,7 @@ public interface Testing {
     
     // Settings for menus
     public static final Color MENUBACKGROUND = Color.BLUE;    
-    public final int MENUSUBBOXHEIGHT = 10;
+    public final int MENUSUBBOXHEIGHT = 30;
     
     
     //Actbar settings

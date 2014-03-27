@@ -7,38 +7,35 @@ package glyphs;
 import feverfew.Testing;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Point;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Oscar
- * 
- * Class for menus composed of options
  */
-public class Menu extends JPanel implements Pin, Testing {
+public class Menu extends JPanel implements Testing, Pin {
     
-    private boolean visible, dying;
-    private int x,y,x2,y2, priority;
-    private int entryCount, currentEntryCount;
+    private boolean dying;
+    private int priority;
+    private int entryCount, currentEntryCount;    
     
+    // int represents position of cursor in menu
+    private int cursor;
+    // array of the options
+    private MenuSubBox[] options;
     
-    public Menu(int entryCount, int x, int y, int width){
-        // Start by creating a JPanel
-        super();
-        this.x = x;
-        this.y = y;
+    public Menu(int entryCount, int a, int b, int width){
+        super(true);    
+        this.setBounds(a,b,width,entryCount * MENUSUBBOXHEIGHT);
         this.entryCount = entryCount;
-        this.currentEntryCount = 0;
-        this.x2 = x + width;
-        this.y2 = y + entryCount * MENUSUBBOXHEIGHT;
+        currentEntryCount = 0;
+        options = new MenuSubBox[entryCount];
+
+        this.setBackground(MENUBACKGROUND);       
         
-        this.setBackground(MENUBACKGROUND);
-        this.setDoubleBuffered(true);
-        //this.setPreferredSize?
-        
-        //Sets the layout to Box, which will lay out individual subcomponents
-        //vertically, one per line
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
     
@@ -47,49 +44,42 @@ public class Menu extends JPanel implements Pin, Testing {
         // Does NOT increase the size of the menu
         // If the menu is full, throws an exception
         if (this.currentEntryCount < this.entryCount){
-            // Create a new menu sub box if there's room for one, align it left
-            // and add it to the menu
+            // Create a new menu sub box if there's room for one
             MenuSubBox subbox = new MenuSubBox(optionName);
-            subbox.setAlignmentX(Component.LEFT_ALIGNMENT);
-            this.add(subbox);
+            subbox.setAlignmentX(Component.CENTER_ALIGNMENT);
+            subbox.setMaximumSize(new Dimension(subbox.getPreferredSize().width,
+                    MENUSUBBOXHEIGHT));
+            // Add the new MSB to the panel and the array
+            this.add(subbox);            
+            this.options[currentEntryCount] = subbox;
             currentEntryCount++;
         }
         else {
             throw new MenuSizeException();
-        }        
+        }
     }
     
-    public void setX2(int x2){
-        this.x2 = x2;
+    // Move the cursor and move the Focus to the relevant option
+    public void downshift(){
+        cursor += 1;
+        this.options[cursor].requestFocus();
     }
-    
-    public void setY2(int y2){
-        this.y2 = y2;
+    public void upshift(){
+        cursor -= 1;
+        this.options[cursor].requestFocus();
     }
-    
-    public int getX2(){
-        return this.x2;
-    }
-    
-    public int getY2(){
-        return this.y2;
-    }    
     
 // <editor-fold defaultstate="collapsed" desc=" Pin Getters and Setters ">
-    @Override
-    public boolean isVisible() {
-        return visible;
-    }
     
     @Override
     public void die() {
-        this.visible = false;
+        this.setVisible(false);
         this.dying = true;
     }
     
     @Override
     public void setVisibility(boolean b) {
-        this.visible = b;
+        this.setVisible(b);
     }
     
     @Override
@@ -104,33 +94,12 @@ public class Menu extends JPanel implements Pin, Testing {
     
     @Override
     public void setX(int newx) {
-        this.x = newx;
+        this.setLocation(newx, this.getY());
     }
     
     @Override
     public void setY(int newy) {
-        this.y = newy;
-    }
-    
-    @Override
-    public void setLocation(Dimension place) {
-        this.x = place.width;
-        this.y = place.height;
-    }
-    
-    @Override
-    public int getX() {
-        return this.x;
-    }
-    
-    @Override
-    public int getY() {
-        return this.y;
-    }
-    
-    @Override
-    public Dimension getPosition() {
-        return new Dimension(x, y);
+        this.setLocation(this.getX(), newy);;
     }
 
     //
@@ -143,17 +112,26 @@ public class Menu extends JPanel implements Pin, Testing {
     public boolean isDying() {
         return this.dying;
     }
-// </editor-fold> 
 
-    private static class MenuSizeException extends Exception {
+    @Override
+    public Point getPosition() {
+        return this.getLocation();
+    }
 
-        public MenuSizeException() {
-        }
+    @Override
+    public void setLocation(Point place) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+// </editor-fold>        
+
+    public static class MenuSizeException extends Exception {
         
-        public MenuSizeException(String info){
-            // Exception class already contains method for creating exception
-            // containing a short message. Convenient!
+        public MenuSizeException(){
+        }
+
+        public MenuSizeException(String info) {
             super(info);
         }
     }
+    
 }

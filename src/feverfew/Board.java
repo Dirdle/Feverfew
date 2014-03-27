@@ -10,9 +10,8 @@ package feverfew;
  * 
  * This class will do a lot of the heavy lifting, I expect
  */
-import glyphs.Pin;
-import glyphs.Scaffold;
-import glyphs.Sprite;
+import glyphs.*;
+import glyphs.Menu.MenuSizeException;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -52,7 +51,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
     
     // This enum tracks the game's internal state, allowing control over
     // what is happening
-    private State state;
+    private GameState state;
     
     // The player character, currently singular
     private PlayerCharacter player;
@@ -97,8 +96,21 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
         // Use null layout, ie components on the board must have known locations
         // Having locations determined dynamically would be nice, but also very
         // fiddly and prone to not working the way I want.
-        this.setLayout(null);       
+        this.setLayout(null); 
         
+        
+        // TODO TEST: add a menu with subcomponents
+        Menu testmenu = new Menu(3, 50, 50, 150);
+        try {
+            testmenu.addOption("test1");
+            testmenu.addOption("test2");
+            testmenu.addOption("waffles");            
+        } catch (MenuSizeException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.add(testmenu);
+        testmenu.setBounds(testmenu.getX(), testmenu.getY(), 
+                testmenu.getWidth(), testmenu.getHeight());
         
         //ImageIcon ii = new ImageIcon(cl.getResource("blank.png"));
         //block = ii.getImage();
@@ -132,7 +144,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
         player = new PlayerCharacter(actionGetter.getListOfActions());
         
         // Set the state and log the change
-        state = State.STARTINGCOMBAT;
+        state = GameState.STARTINGCOMBAT;
         LOGGER.stateSet(state);
         
         gameActive = true;
@@ -243,7 +255,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
                     // Add the button to the board
                     this.add(combatStartButton);
                     // And then switch to waiting for input
-                    this.state = State.WAITINGINPUT;
+                    this.state = GameState.WAITINGINPUT;
                     LOGGER.stateSet(state);
                     break;
                 
@@ -259,7 +271,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
                     this.remove(combatStartButton);                    
                     combatStartButton = null;
                     
-                    this.state = State.RUNNINGCOMBAT;
+                    this.state = GameState.RUNNINGCOMBAT;
                     LOGGER.stateSet(state);  
                     break;
                     
@@ -268,7 +280,7 @@ public class Board extends JPanel implements Runnable, Testing, ActionListener {
                     break;
                 case WAITINGINPUT:
                     if (userReady) {
-                        Board.this.state = State.CREATINGCOMBAT;
+                        Board.this.state = GameState.CREATINGCOMBAT;
                         LOGGER.stateSet(state);
                     }
                     break;

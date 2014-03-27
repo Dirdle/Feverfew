@@ -22,19 +22,19 @@ public class ActionExtractor {
     
     // This list stores the action objects that will be created
 
-    private ArrayList<Action> listOfActions; 
+    private ArrayList<GameAction> listOfActions; 
     
     public ActionExtractor(){
         
     }
     
-    public ArrayList<Action> getListOfActions(){
+    public ArrayList<GameAction> getListOfActions(){
         return listOfActions;
     }
     
     @XmlElementWrapper(name = "actionList")
     @XmlElement(name = "action")    
-    public void setListOfActions(ArrayList<Action> list){
+    public void setListOfActions(ArrayList<GameAction> list){
         this.listOfActions = list;
     }    
 }

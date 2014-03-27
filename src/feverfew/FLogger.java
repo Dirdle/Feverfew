@@ -24,7 +24,7 @@ public class FLogger {
     Long startTime;
     
     private StringBuilder logBuild;
-    private State previousState = null;
+    private GameState previousState = null;
     
     public FLogger(Path logTo) {
         logFileLoc = logTo;
@@ -66,7 +66,7 @@ public class FLogger {
         outputStream.flush();
     }
     
-    public void stateSet(State s){
+    public void stateSet(GameState s){
         // Log changes to the state of the game
         logBuild = new StringBuilder(0);
         String time = Long.toString(System.currentTimeMillis() - startTime);

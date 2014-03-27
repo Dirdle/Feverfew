@@ -15,7 +15,7 @@ public class PlayerCharacter implements Testing {
     // This class represents an in-game PC, not the actual player
     // TODO create a superclass of this that also covers mobs
     
-    public ArrayList<Action> actionPool;
+    public ArrayList<GameAction> actionPool;
     public String name;
     
     public int stamina;
@@ -23,7 +23,7 @@ public class PlayerCharacter implements Testing {
     
     public int availableActionCount;
     
-    public PlayerCharacter(ArrayList<Action> actions){
+    public PlayerCharacter(ArrayList<GameAction> actions){
         this.actionPool = actions;
         
         // ONLY FOR TEST
@@ -35,9 +35,9 @@ public class PlayerCharacter implements Testing {
         
     }
     
-    public void takeAction(Action action, int rating){
+    public void takeAction(GameAction action, int rating){
         LOGGER.log(this.name + " takes action: " + action.getName());
-        // Imposes costs etc on this PlayerCharacter for using an Action with
+        // Imposes costs etc on this PlayerCharacter for using an GameAction with
         // a given Rating for success.
         
         // For the most part, actions will have constant costs. For now, that's

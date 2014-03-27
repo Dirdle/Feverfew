@@ -4,9 +4,7 @@
  */
 package glyphs;
 
-
-import feverfew.Action;
-import feverfew.Action;
+import feverfew.GameAction;
 import feverfew.Testing;
 import java.awt.Color;
 import java.awt.Shape;
@@ -18,14 +16,14 @@ import java.awt.Shape;
  */
 public class ActionPin extends MenuSubBox implements Testing {
     
-    private Action action;
-    private Sprite icon;
+    private GameAction action;
+    private Sprite sprite;
     
     private String name;
     
 
     //Construction: handled by MSB, which passes it up to JTA...
-    public ActionPin(Action a, int x, int y){        
+    public ActionPin(GameAction a, int x, int y){        
         super(a.getDisplayName());        
         this.setLocation(x, y);
         LOGGER.log("Created ActionPin");
@@ -35,7 +33,7 @@ public class ActionPin extends MenuSubBox implements Testing {
 //    TODO make some icons...
     
     
-//    public ActionPin(Action a, int x, int y){        
+//    public ActionPin(GameAction a, int x, int y){        
 //        
 //        // TODO initialise the icon
 //        // Do this by looking up the action's name (dot png) in a folder full
@@ -60,20 +58,20 @@ public class ActionPin extends MenuSubBox implements Testing {
         return this.name;
     }
     
-    public Action getAction() {
+    public GameAction getGameAction() {
         return action;
     }
 
-    public void setAction(Action action) {
+    public void setAction(GameAction action) {
         this.action = action;
     }
 
-    public Sprite getIcon() {
-        return icon;
+    public Sprite getSprite() {
+        return sprite;
     }
 
-    public void setIcon(Sprite icon) {
-        this.icon = icon;
+    public void setSprite(Sprite icon) {
+        this.sprite = icon;
     }
     
 }

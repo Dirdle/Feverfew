@@ -54,7 +54,7 @@ public class ActBar extends Scaffold implements Testing {
         this.setStrokeColor(ACTBARCOLOR);
         this.setPen(ACTBARSTYLE);        
         
-        // Sets the bar's dimensions
+        // Sets the bar's Points
         this.set();
         
         // Sets the amount to decrease length on each update

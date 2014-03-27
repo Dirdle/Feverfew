@@ -12,7 +12,7 @@ package glyphs;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.*;
@@ -137,9 +137,9 @@ public class Scaffold implements Pin {
     }
     
     @Override
-    public void setLocation(Dimension place) {
-        this.x = place.width;
-        this.y = place.height;
+    public void setLocation(Point place) {
+        this.x = place.x;
+        this.y = place.y;
     }
     
     @Override
@@ -153,8 +153,8 @@ public class Scaffold implements Pin {
     }
     
     @Override
-    public Dimension getPosition() {
-        return new Dimension(x, y);
+    public Point getPosition() {
+        return new Point(x, y);
     }
 
     //
