@@ -5,7 +5,7 @@
 package glyphs;
 
 import feverfew.Testing;
-import java.awt.Dimension;
+import java.awt.Point;
 
 /**
  *
@@ -28,7 +28,7 @@ public interface Pin extends Testing {
 
     void die();
 
-    Dimension getPosition();
+    Point getPosition();
 
     int getPriority();
 
@@ -42,7 +42,7 @@ public interface Pin extends Testing {
 
     void setDying(boolean newdying);
 
-    void setLocation(Dimension place);
+    void setLocation(Point place);
 
     void setPriority(int priority);
 
